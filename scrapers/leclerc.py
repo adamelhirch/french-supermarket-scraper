@@ -3,14 +3,21 @@
 from typing import List, Optional
 from playwright.async_api import async_playwright, Browser, Page
 import re
+import json
+from pathlib import Path
 from .base import BaseScraper, Product
 
 
 class LeclercScraper(BaseScraper):
     """Scraper for E.Leclerc online store."""
     
-    BASE_URL = "https://www.e-leclerc.com"
-    SEARCH_URL = "https://www.e-leclerc.com/recherche"
+    BASE_URL = "https://www.e.leclerc"
+    SEARCH_URL = "https://www.e.leclerc/recherche"
+    
+    def __init__(self, cache_client=None, cache_ttl: int = 3600):
+        """Initialize Leclerc scraper with cookies."""
+        super().__init__(cache_client, cache_ttl)
+        self.cookie_file = Path(__file__).parent.parent / "leclerc_cookies.json"
     
     @property
     def store_name(self) -> str:
@@ -27,67 +34,117 @@ class LeclercScraper(BaseScraper):
         Returns:
             List of Product objects
         """
+        # Load cookies
+        if not self.cookie_file.exists():
+            self.logger.error(f"Cookie file not found: {self.cookie_file}")
+            self.logger.error("Run extract_leclerc_cookies.py first to save cookies")
+            return []
+        
+        with open(self.cookie_file) as f:
+            cookies = json.load(f)
+        
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
+            context = await browser.new_context()
+            await context.add_cookies(cookies)
+            page = await context.new_page()
+            
             try:
-                products = await self._scrape_search_page(browser, query, max_results)
+                products = await self._scrape_search_page(page, query, max_results)
                 return products
             finally:
                 await browser.close()
     
     async def _scrape_search_page(
-        self, browser: Browser, query: str, max_results: int
+        self, page: Page, query: str, max_results: int
     ) -> List[Product]:
         """Scrape search results page."""
-        page = await browser.new_page()
-        
         try:
-            # Navigate to search page
-            search_url = f"{self.SEARCH_URL}?q={query.replace(' ', '+')}"
+            # Use correct URL format: /recherche?q=QUERY
+            search_url = f"{self.SEARCH_URL}?q={query}"
             self.logger.info(f"Navigating to: {search_url}")
             
-            await page.goto(search_url, wait_until="networkidle", timeout=30000)
+            await page.goto(search_url, wait_until="networkidle", timeout=40000)
             
-            # Wait for product grid to load
-            await page.wait_for_selector('.product-item, .product-card, [data-product]', timeout=10000)
+            # Wait for dynamic content to load (Angular SPA)
+            import asyncio
+            await asyncio.sleep(10)
+            
+            # Get page text
+            page_text = await page.evaluate('() => document.body.innerText')
             
             # Extract products
             products = []
+            lines = page_text.split('\n')
             
-            # Leclerc uses different selectors depending on region
-            # Try multiple patterns
-            product_selectors = [
-                '.product-item',
-                '.product-card',
-                '[data-product]',
-                '.productList-item'
-            ]
-            
-            product_elements = None
-            for selector in product_selectors:
-                elements = await page.query_selector_all(selector)
-                if elements:
-                    product_elements = elements
-                    self.logger.info(f"Found {len(elements)} products with selector: {selector}")
+            for i, line in enumerate(lines):
+                if len(products) >= max_results:
                     break
-            
-            if not product_elements:
-                self.logger.warning(f"No products found for query: {query}")
-                return []
-            
-            for element in product_elements[:max_results]:
-                try:
-                    product = await self._extract_product(element, page)
-                    if product:
-                        products.append(product)
-                except Exception as e:
-                    self.logger.warning(f"Failed to extract product: {e}")
+                
+                # Look for price pattern
+                price_match = re.search(r'(\d+)[€,.](\d+)\s*€', line)
+                if not price_match:
                     continue
+                
+                # Extract price
+                try:
+                    price = float(f"{price_match.group(1)}.{price_match.group(2)}")
+                except:
+                    continue
+                
+                # Get context for product name
+                context_start = max(0, i - 3)
+                context_end = min(len(lines), i + 2)
+                context_lines = [l.strip() for l in lines[context_start:context_end] if l.strip()]
+                
+                # Try to find product name (usually before price)
+                product_name = None
+                for ctx_line in context_lines:
+                    # Skip if it's just a price or category
+                    if re.search(r'^\d+[€,.]', ctx_line):
+                        continue
+                    if ctx_line in ['Vérifier la disponibilité', 'Vendu par', 'Autre offre']:
+                        continue
+                    if len(ctx_line) > 10 and len(ctx_line) < 150:
+                        product_name = ctx_line
+                        break
+                
+                if not product_name:
+                    product_name = f"Produit {len(products) + 1}"
+                
+                # Extract unit price if available
+                unit_price = None
+                unit_label = None
+                for ctx_line in context_lines:
+                    unit_match = re.search(r'(\d+[,.]?\d*)\s*€\s*/\s*(Kg|kg|L|l)', ctx_line)
+                    if unit_match:
+                        try:
+                            unit_price = float(unit_match.group(1).replace(',', '.'))
+                            unit_label = f"€/{unit_match.group(2)}"
+                        except:
+                            pass
+                        break
+                
+                # Create product
+                product = Product(
+                    name=product_name,
+                    price=price,
+                    unit="pièce",
+                    store=self.store_name,
+                    url=search_url,
+                    unit_price=unit_price,
+                    unit_label=unit_label,
+                )
+                
+                products.append(product)
+                self.logger.debug(f"Extracted: {product_name} - {price}€")
             
+            self.logger.info(f"Found {len(products)} products")
             return products
             
-        finally:
-            await page.close()
+        except Exception as e:
+            self.logger.error(f"Error scraping search page: {e}")
+            return []
     
     async def _extract_product(self, element, page: Page) -> Optional[Product]:
         """Extract product data from a product element."""
