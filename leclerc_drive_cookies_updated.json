@@ -1,0 +1,192 @@
+[
+  {
+    "domain": ".leclercdrive.fr",
+    "expires": 1771801198.568673,
+    "httpOnly": true,
+    "name": "clsWDMA031:ciSaisonnalite8-304-iSaisonnalite",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "d=\"2026-02-07T00:00:00+01:00\"&n=3"
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "expires": 1785982206,
+    "httpOnly": false,
+    "name": "OptanonAlertBoxClosed",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "2026-02-07T02:10:06.667Z"
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "expires": 1801968965.911025,
+    "httpOnly": false,
+    "name": "datadome",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "B4tUxEyRZ3_hvkdb21NEZ~WRoQxISw7fs8LdVRzE9ZzTRpDKbZVnhS5DYvUQCPx17TQuuAkq6h1GP9F_MiUO54tlYmp0kUQ1nrZfVj~8p_VnhntjrUgjhBvTOBoaEGWj"
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "expires": 1801966251.281577,
+    "httpOnly": false,
+    "name": "clsWCSD107:ContexteMU",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "@d=2%7c123111"
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "httpOnly": false,
+    "name": "TS01e6e41f",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "0197c01f64de6ebd75ac6c7a13b89bee0790f4ca320dfa599eb997c9b4339af179c02bb38d1f9ba5cab74cbab7f8df12d1f733c13d"
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "expires": 1804385404.155876,
+    "httpOnly": false,
+    "name": "MacId",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "id=a40d5710-4c69-4de3-8ca3-6f391098c227"
+  },
+  {
+    "domain": "fd7-courses.leclercdrive.fr",
+    "httpOnly": false,
+    "name": "TS01b20143",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "0197c01f6403a7927a68f8cdf538e4a95fe8caa9e729c997422a531e3efa97b3367a5611c59a5598f59945dcf7fdaf5161d561bb13"
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "httpOnly": false,
+    "name": "clsWCSD333:iDRIVE305",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "null"
+  },
+  {
+    "domain": "fd7-courses.leclercdrive.fr",
+    "httpOnly": true,
+    "name": "ASP.NET_SessionId",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "rbepeb5wkmqfrl4idgbkz0fu"
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "httpOnly": true,
+    "name": "Canal",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "sCANAL=SD"
+  },
+  {
+    "domain": "fd7-courses.leclercdrive.fr",
+    "httpOnly": true,
+    "name": "cdrivesr1",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "bdrivesr1|aYapv"
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "httpOnly": true,
+    "name": "clsWCCD125:@123111",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "sid=2000"
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "expires": 1770519355,
+    "httpOnly": false,
+    "name": "clsWCSD045:PageCache",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "c=1"
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "expires": 1804992954.960149,
+    "httpOnly": true,
+    "name": "clsWDMA031:ciBandeauQLMC-7002-iOpcGT-123111",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "d=\"2026-02-07T00:00:00+01:00\"&n=1"
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "expires": 1801967809.568366,
+    "httpOnly": false,
+    "name": "clsWDMA040:Didact",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "ee=&e=&d=&c=false&n=0&a=00000000010000000"
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "expires": 1801968751.843157,
+    "httpOnly": true,
+    "name": "clsWMIT013:Cookie_Mitigation",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "Id_Machine=719a6d50-5924-4d11-9610-c74e8ddabeb1"
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "expires": 1785984955,
+    "httpOnly": false,
+    "name": "OptanonConsent",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "isGpcEnabled=0&datestamp=Sat+Feb+07+2026+03%3A55%3A55+GMT%2B0100+(heure+normale+d%E2%80%99Europe+centrale)&version=202505.1.0&browserGpcFlag=0&isIABGlobal=false&hosts=&genVendors=&consentId=76b207f2-89ba-48df-a232-adeea76a44c4&interactionCount=1&isAnonUser=1&landingPath=NotLandingPage&groups=1%3A1%2C2%3A0%2C3%3A0%2C4%3A0&intType=undefined&geolocation=%3B&AwaitingReconsent=false"
+  },
+  {
+    "domain": "fd7-courses.leclercdrive.fr",
+    "httpOnly": false,
+    "name": "TagCommander",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": ""
+  },
+  {
+    "domain": ".leclercdrive.fr",
+    "httpOnly": false,
+    "name": "TS018e2733",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "0197c01f6432d0bd19bb536f7ef9b0cba5dc42dc7637d9c8311f5b581422a18c021c42aa20d65d106d7e017063d6ddaa11b04bc34"
+  },
+  {
+    "domain": "fd7-courses.leclercdrive.fr",
+    "httpOnly": true,
+    "name": "wdrivesr1",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "sra-v307|aYapv"
+  }
+]
